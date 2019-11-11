@@ -1,7 +1,7 @@
 {
   "name": "hyperlinked-narratives",
   "version": "1.0.0",
-  "description": "",
+  "description": "Explores hyperlinked narratives through Wikipedia.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +13,6 @@
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "request": "^2.88.0"
-  }
+  },
+  "repository": "whykatherine/hyperlinked-narratives"
 }
