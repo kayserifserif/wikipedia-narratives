@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <p>Random article:</p>
+  <% if (articleTitle != null) { %>
+    <p><b><%- articleTitle %></b></p>
+  <% } %>
+  <p>Randomised collection of links in article:</p>
+  <% if (articleLinks != null) { %>
+    <ul class="links">
+      <% articleLinks.forEach(function(link) { %>
+        <li><%- link %></li>
+      <% }); %>
+    </ul>
+  <% } %>
+</body>
+</html>
