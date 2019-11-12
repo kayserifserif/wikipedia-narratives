@@ -1,26 +1,21 @@
-a,
-a span {
-  color: #008080;
-}
-
 .article-links {
-  list-style-type: none;
-  padding-left: 0;
   display: flex;
   flex-wrap: wrap;
 }
 
 .article-link {
-  width: auto;
+  display: block;
+  margin: 7px;
+  padding: 7px;
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  color: #008080;
+  font-size: 1em;
   opacity: 0;
   transition: opacity 500ms;
 }
 
-.article-link a {
-  display: block;
-  margin: 7px;
-  padding: 7px;
-  border-radius: 5px;
-  border: 1px solid currentColor;
-  text-decoration: none;
+.article-link:hover {
+  cursor: pointer;
 }

@@ -9,11 +9,16 @@ app.use(express.static('public'));
 // use templating engine
 app.set('view engine', 'ejs');
 
+// get random wikipedia page
+var randomURL = "https://en.wikipedia.org/wiki/Special:Random#/random";
+var initialArticle = {};
+var chain = [];
+
 app.get('/', function(req, res) {
-  // get random wikipedia page
-  let randomURL = "https://en.wikipedia.org/wiki/Special:Random#/random";
+
   // get contents of webpage
   request(randomURL, function(error, response, body) {
+
     if (error) {
       res.render('index', {
         articleTitle: null, 
@@ -21,13 +26,20 @@ app.get('/', function(req, res) {
         error: "Error, please try again"
       });
       return 1;
+
     } else {
 
       // parse page
       var $ = cheerio.load(body);
-      var links = [];
-      var linkTexts = [];
-      // get links that go to other wikipedia articles
+
+      // set up initial article object
+      initialArticle = {
+        title: $('#firstHeading').html(),
+        url: 'https://en.wikipedia.org' + response.socket._httpMessage.path
+      };
+
+      var articleLinks = [];
+      // get all links that go to other wikipedia articles
       $(
         '#bodyContent a' + 
           '[href^="/wiki/"]' + 
@@ -43,35 +55,30 @@ app.get('/', function(req, res) {
             '[href^="/wiki/Help:"],' + 
             '.internal)'
       ).each(function(i, elem) {
-        var linkText = $(this).attr('title');
-        // only add if not duplicate
-        if (!linkTexts.includes(linkText)) {
-          var link = '<a href="' + 'https://en.wikipedia.org' + $(this).attr('href') + '">' +
-            $(this).attr('title') + '</a>';
-          // add to links array
-          links.push(link);
-          linkTexts.push(linkText);
-        }
+        var url = 'https://en.wikipedia.org' + $(this).attr('href');
+        var title = $(this).attr('title');
+        // get sentence/kwic?
+        // add to links array (only if not duplicate?)
+        articleLinks.push({
+          url: url,
+          title: title,
+        });
       });
 
-      // shuffle arrays
+      // shuffle array
       // Fisher-Yates algorithm from
       // medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
-      for (var i = links.length-1; i > 0; i--) {
+      for (var i = articleLinks.length-1; i > 0; i--) {
         var j = Math.floor(Math.random() * i);
-        var temp_link = links[i];
-        var temp_linkText = linkTexts[i];
-        links[i] = links[j];
-        linkTexts[i] = linkTexts[j];
-        links[j] = temp_link;
-        linkTexts[j] = temp_linkText;
+        var temp_link = articleLinks[i];
+        articleLinks[i] = articleLinks[j];
+        articleLinks[j] = temp_link;
       }
 
       // send data to page
       res.render('index', {
-        articleTitle: $('#firstHeading').html(),
-        articleLinks: links,
-        articleLinkTexts: linkTexts,
+        initialArticle: initialArticle,
+        links: articleLinks,
         error: null
       });
 

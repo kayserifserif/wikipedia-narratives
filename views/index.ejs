@@ -6,16 +6,16 @@
 </head>
 <body>
   <p>Random article:</p>
-  <% if (articleTitle != null) { %>
-    <p><b><%- articleTitle %></b></p>
+  <% if (initialArticle != null) { %>
+    <p><b><%- initialArticle.title %></b></p>
   <% } %>
   <p>Randomised collection of links in article:</p>
-  <% if (articleLinks != null) { %>
-    <ul class="article-links">
-      <% articleLinks.forEach(function(link) { %>
-        <li class="article-link"><%- link %></li>
+  <% if (links != null) { %>
+    <div class="article-links">
+      <% links.forEach(function(link) { %>
+        <button class="article-link"><%- link.title %></button>
       <% }); %>
-    </ul>
+    </div>
   <% } %>
   <script src="/js/scripts.js"></script>
 </body>
