@@ -5,16 +5,23 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <p>Random article:</p>
-  <% if (initialArticle != null) { %>
-    <p><b><%- initialArticle.title %></b></p>
-  <% } %>
-  <p>Randomised collection of links in article:</p>
-  <% if (links != null) { %>
+  <p>Article chain:</p>
+  <p>
+    <% if (chain.length > 1) { %>
+      <% for (var i = 0; i < chain.length - 1; i++) { %>
+        <%- chain[i] %> → 
+      <% } %>
+    <% } %>
+    <b><%- chain[chain.length - 1] %></b>
+  </p>
+  <p>Randomised collection of links in current article:</p>
+  <% if (articleLinks != null) { %>
     <div class="article-links">
-      <% links.forEach(function(link) { %>
-        <button class="article-link"><%- link.title %></button>
-      <% }); %>
+      <form action="/" method="POST">
+        <% articleLinks.forEach(function(link) { %>
+          <button class="article-link" name="article_link" value=<%=link.url_stub%>><%- link.title %></button>
+        <% }); %>
+      </form>
     </div>
   <% } %>
   <script src="/js/scripts.js"></script>
