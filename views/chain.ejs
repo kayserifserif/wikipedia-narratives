@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <p>Article chain:</p>
+  <% if (chain) { %>
+    <p>
+      <% if (chain.length > 1) { %>
+        <% for (var i = 0; i < chain.length - 1; i++) { %>
+          <%- chain[i] %> → 
+        <% } %>
+      <% } %>
+      <b><%- chain[chain.length - 1] %></b>
+    </p>
+  <% } %>
+  <p>Randomised collection of links in current article:</p>
+  <% if (articleLinks != null) { %>
+    <div class="article-links">
+      <form action="/chain" method="POST">
+        <% articleLinks.forEach(function(link) { %>
+          <button class="article-link" name="article_link" value=<%=link.url_stub%>><%- link.title %></button>
+        <% }); %>
+      </form>
+    </div>
+  <% } %>
+  <script src="/js/scripts.js"></script>
+</body>
+</html>

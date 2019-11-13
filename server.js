@@ -16,14 +16,14 @@ app.set('view engine', 'ejs');
 var randomURL = "https://en.wikipedia.org/wiki/Special:Random#/random";
 var chain = [];
 
-function renderData(url, res) {
+function renderChain(url, res) {
 
   // get contents of webpage
   request(url, function(error, response, body) {
 
     if (error) {
 
-      res.render('index', {
+      res.render('chain', {
         articleTitle: null, 
         articleLinks: null,
         error: "Error, please try again"
@@ -78,7 +78,7 @@ function renderData(url, res) {
       }
 
       // send data to page to render
-      res.render('index', {
+      res.render('chain', {
         chain: chain,
         articleLinks: articleLinks,
         error: null
@@ -88,15 +88,30 @@ function renderData(url, res) {
   });
 }
 
-// load page
+// load start page
 app.get('/', function(req, res) {
-  renderData(randomURL, res);
+  res.render('index');
+});
+
+// generate new chain
+app.get('/chain', function(req, res) {
+  chain = [];
+  var path_type = req.query.path_type;
+  if (path_type == 'manual') {
+    renderChain(randomURL, res);
+  } else {
+    res.render('chain', {
+      chain: null,
+      articleLinks: null,
+      error: 'Error, please try again'
+    });
+  }
 });
 
 // respond to user action
-app.post('/', function(req, res) {
+app.post('/chain', function(req, res) {
   var url = 'https://en.wikipedia.org/wiki/' + req.body.article_link;
-  renderData(url, res);
+  renderChain(url, res);
 });
 
 // start server
