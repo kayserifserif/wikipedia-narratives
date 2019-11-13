@@ -7,15 +7,10 @@
 </head>
 <body>
   <p><a href="/">Home</a></p>
-  <form action="/chain" method="GET" id="pathForm">
-    <p>Restart:</p>
-    <button name="path_type" value="manual">Let me make my own path</button>
-    <button name="path_type" value="auto">Choose a path for me</button>
-  </form>
-  <p id="chain-counter">Article chain: <span><%-chain.length%>/10</span></p>
+  <p id="chain-counter">Article chain: <span><span id="chain-count"><%-chain.length%></span>/10</span></p>
   <% if (chain) { %>
     <p id="article-chain" class="constructing">
-      <% if (chain.length > 1) { %>
+      <% if (chain.length > 0) { %>
         <% chain.forEach(function(node) { %>
           <span class="article-node"><%- node %></span>
         <% }); %>
@@ -31,9 +26,6 @@
         <% }); %>
       </form>
     </div>
-  <% } %>
-  <% if (chain.length == 10) { %>
-    <button id="createNarrative">Create a narrative</button>
   <% } %>
   <script src="/js/scripts.js"></script>
 </body>

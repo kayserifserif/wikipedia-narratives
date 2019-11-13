@@ -3,9 +3,13 @@ body {
   line-height: 1.2;
 }
 
+#article-chain {
+  line-height: 1.5;
+  transition: font-size 1s;
+}
+
 #article-chain.constructing {
   font-size: 1em;
-  transition: font-size 1s;
 }
 
 .constructing .article-node:not(:last-of-type)::after {
@@ -18,7 +22,6 @@ body {
 
 #article-chain.narrativising {
   font-size: 2.5em;
-  line-height: 1.5;
 }
 
 .narrativeInput {
