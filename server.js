@@ -16,6 +16,7 @@ app.set('view engine', 'ejs');
 var randomURL = "https://en.wikipedia.org/wiki/Special:Random#/random";
 var chain = [];
 var maxChainLength = 10;
+var articleLinks = [];
 
 function renderChain(url, isManual, res) {
 
@@ -23,27 +24,36 @@ function renderChain(url, isManual, res) {
   request(url, function(error, response, body) {
 
     if (error) {
-
       res.render('chain', {
         articleTitle: null, 
         articleLinks: null,
         error: "Error, please try again"
       });
       return 1;
-
     } else {
 
       // parse page
       var $ = cheerio.load(body);
 
-      // get article heading
-      chain.push($('#firstHeading').html());
+      // get article heading and paragraph in context
+      var title = $("#firstHeading").html();
+      var paragraph = "";
+      for (var i = 0; i < articleLinks.length; i++) {
+        if (articleLinks[i].url == url) {
+          paragraph = articleLinks[i].paragraph;
+        }
+      }
+      chain.push({
+        title: title,
+        paragraph: paragraph
+      })
 
       if (chain.length < maxChainLength) {
         // get links on page (only those going to other wikipedia articles)
-        var articleLinks = [];
+        // var articleLinks = [];
+        articleLinks = [];
         $(
-          '#bodyContent a' + 
+          '.mw-parser-output > p a' + 
             '[href^="/wiki/"]' + 
             ':not' + 
               '(:has(>img),' + 
@@ -60,12 +70,14 @@ function renderChain(url, isManual, res) {
           var title = $(this).attr('title');
           var url = 'https://en.wikipedia.org' + $(this).attr('href');
           var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
+          var paragraph = $(this).parent().html();
           // get sentence/kwic?
           // add to links array (only if not duplicate?)
           articleLinks.push({
             title: title,
             url: url,
-            url_stub: url_stub
+            url_stub: url_stub,
+            paragraph: paragraph
           });
         });
 

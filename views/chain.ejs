@@ -12,7 +12,7 @@
     <p id="article-chain" class="constructing">
       <% if (chain.length > 0) { %>
         <% chain.forEach(function(node) { %>
-          <span class="article-node"><%- node %></span>
+          <span class="article-node"><%- node.title %></span>
         <% }); %>
       <% } %>
     </p>
@@ -25,6 +25,17 @@
           <button class="article-link" name="article_link" value=<%=link.url_stub%>><%- link.title %></button>
         <% }); %>
       </form>
+    </div>
+  <% } %>
+  <% if (chain.length == 10) { %>
+    <form action="" id="narratives-form">
+      <button id="create-narrative" type="button">Create a narrative</button>
+      <button id="compare-narratives" type="button">Compare narratives</button>
+    </form>
+    <div id="paragraphs">
+      <% chain.forEach(function(node) { %>
+        <p><%- node.paragraph %></p>
+      <% }) %>
     </div>
   <% } %>
   <script src="/js/scripts.js"></script>

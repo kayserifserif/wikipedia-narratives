@@ -20,21 +20,6 @@ body {
   font-weight: bold;
 }
 
-#article-chain.narrativising {
-  font-size: 2.5em;
-}
-
-.narrativeInput {
-  display: inline-block;
-  margin: 0 .5em;
-  padding: 0 .2em;
-  border: 0;
-  border-bottom: 1px solid #008080;
-  background-color: #b9e1e1;
-  font-size: 1em;
-  color: #008080;
-}
-
 .article-links form {
   display: flex;
   flex-wrap: wrap;
@@ -55,4 +40,27 @@ body {
 
 .article-link:hover {
   cursor: pointer;
+}
+
+#article-chain.narrativising {
+  font-size: 2.5em;
+}
+
+.narrativeInput {
+  display: inline-block;
+  margin: 0 .5em;
+  padding: 0 .2em;
+  border: 0;
+  border-bottom: 1px solid #008080;
+  background-color: #b9e1e1;
+  font-size: 1em;
+  color: #008080;
+}
+
+#narratives-form button {
+  display: none;
+}
+
+#paragraphs {
+  display: none;
 }
