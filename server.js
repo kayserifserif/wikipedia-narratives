@@ -15,6 +15,7 @@ app.set('view engine', 'ejs');
 // get random wikipedia page
 var randomURL = "https://en.wikipedia.org/wiki/Special:Random#/random";
 var chain = [];
+var maxChainLength = 10;
 
 function renderChain(url, isManual, res) {
 
@@ -38,65 +39,67 @@ function renderChain(url, isManual, res) {
       // get article heading
       chain.push($('#firstHeading').html());
 
-      // get links on page (only those going to other wikipedia articles)
-      var articleLinks = [];
-      $(
-        '#bodyContent a' + 
-          '[href^="/wiki/"]' + 
-          ':not' + 
-            '(:has(>img),' + 
-            '[href^="/wiki/Category:"],' + 
-            '[href^="/wiki/Portal:"],' + 
-            '[href^="/wiki/Special:"],' + 
-            '[href^="/wiki/Wikipedia:"],' + 
-            '[href^="/wiki/Template:"],' + 
-            '[href^="/wiki/Template_talk:"],' + 
-            '[href^="/wiki/Talk:"],' + 
-            '[href^="/wiki/Help:"],' + 
-            '.internal)'
-      ).each(function(i, elem) {
-        var title = $(this).attr('title');
-        var url = 'https://en.wikipedia.org' + $(this).attr('href');
-        var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
-        // get sentence/kwic?
-        // add to links array (only if not duplicate?)
-        articleLinks.push({
-          title: title,
-          url: url,
-          url_stub: url_stub
+      if (chain.length < maxChainLength) {
+        // get links on page (only those going to other wikipedia articles)
+        var articleLinks = [];
+        $(
+          '#bodyContent a' + 
+            '[href^="/wiki/"]' + 
+            ':not' + 
+              '(:has(>img),' + 
+              '[href^="/wiki/Category:"],' + 
+              '[href^="/wiki/Portal:"],' + 
+              '[href^="/wiki/Special:"],' + 
+              '[href^="/wiki/Wikipedia:"],' + 
+              '[href^="/wiki/Template:"],' + 
+              '[href^="/wiki/Template_talk:"],' + 
+              '[href^="/wiki/Talk:"],' + 
+              '[href^="/wiki/Help:"],' + 
+              '.internal)'
+        ).each(function(i, elem) {
+          var title = $(this).attr('title');
+          var url = 'https://en.wikipedia.org' + $(this).attr('href');
+          var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
+          // get sentence/kwic?
+          // add to links array (only if not duplicate?)
+          articleLinks.push({
+            title: title,
+            url: url,
+            url_stub: url_stub
+          });
         });
-      });
 
-      // shuffle array
-      // Fisher-Yates algorithm from
-      // medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
-      for (var i = articleLinks.length-1; i > 0; i--) {
-        var j = Math.floor(Math.random() * i);
-        var temp = articleLinks[i];
-        articleLinks[i] = articleLinks[j];
-        articleLinks[j] = temp;
+        // shuffle array
+        // Fisher-Yates algorithm from
+        // medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
+        for (var i = articleLinks.length-1; i > 0; i--) {
+          var j = Math.floor(Math.random() * i);
+          var temp = articleLinks[i];
+          articleLinks[i] = articleLinks[j];
+          articleLinks[j] = temp;
+        }
       }
 
-      // depending on path type
-      if (isManual) {
-        // render page
-        res.render('chain', {
-          chain: chain,
-          articleLinks: articleLinks,
-          error: null
-        });
-      } else {
-        // automatically create chain
-        if (chain.length < 10) {
-          var chosenLink = articleLinks[Math.floor(Math.random() * articleLinks.length)];
-          renderChain(chosenLink.url, false, res);
-        } else {
+      if (chain.length < maxChainLength) {
+        if (isManual) {
+          // render page
           res.render('chain', {
             chain: chain,
-            articleLinks: null,
+            articleLinks: articleLinks,
             error: null
           });
+        } else {
+          // automatically choose link
+          var chosenLink = articleLinks[Math.floor(Math.random() * articleLinks.length)];
+          renderChain(chosenLink.url, false, res);
         }
+      } else {
+        // render without links
+        res.render('chain', {
+          chain: chain,
+          articleLinks: null,
+          error: null
+        });
       }
 
     }
@@ -111,8 +114,7 @@ app.get('/', function(req, res) {
 // generate new chain
 app.get('/chain', function(req, res) {
   chain = [];
-  var path_type = req.query.path_type;
-  if (path_type == 'manual') {
+  if (req.query.path_type == 'manual') {
     renderChain(randomURL, true, res);
   } else {
     renderChain(randomURL, false, res);

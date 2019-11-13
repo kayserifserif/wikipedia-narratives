@@ -12,7 +12,7 @@
     <button name="path_type" value="manual">Let me make my own path</button>
     <button name="path_type" value="auto">Choose a path for me</button>
   </form>
-  <p>Article chain:</p>
+  <p>Article chain: <span id="chain-counter"><%-chain.length%>/10</span></p>
   <% if (chain) { %>
     <p>
       <% if (chain.length > 1) { %>
@@ -23,8 +23,8 @@
       <b><%- chain[chain.length - 1] %></b>
     </p>
   <% } %>
-  <p>Randomised collection of links in current article:</p>
-  <% if (articleLinks != null) { %>
+  <% if (articleLinks) { %>
+    <p>Randomised collection of links in current article:</p>
     <div class="article-links">
       <form action="/chain" method="POST">
         <% articleLinks.forEach(function(link) { %>
@@ -32,6 +32,9 @@
         <% }); %>
       </form>
     </div>
+  <% } %>
+  <% if (chain.length == 10) { %>
+    <button>Create a narrative</button>
   <% } %>
   <script src="/js/scripts.js"></script>
 </body>
