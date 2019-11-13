@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title></title>
+  <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+  <p><a href="/">Home</a></p>
+  <p>Restart:</p>
+  <form action="/chain" method="GET" id="pathForm">
+    <button name="path_type" value="manual">Let me make my own path</button>
+    <button name="path_type" value="auto">Choose a path for me</button>
+  </form>
   <p>Article chain:</p>
   <% if (chain) { %>
     <p>
