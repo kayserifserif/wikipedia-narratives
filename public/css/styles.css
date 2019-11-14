@@ -69,26 +69,27 @@ main {
   padding: 1em;
   background-color: #008080;
   border: 0;
-  border-bottom: 5px solid #025e5e;
   border-radius: 5px;
   font-size: 1em;
   font-family: "Cabin", sans-serif;
   color: #fff;
+  box-shadow: 0 5px 0 0 #025e5e;
 }
 
 .action-btn:disabled {
   background-color: #8c8c8c;
-  border-bottom: 5px solid #5c5c5c;
+  box-shadow: 0 5px 0 0 #5c5c5c;
 }
 
 .action-btn:not(:disabled):hover {
   margin-top: calc(1em - 3px);
   background-color: #15aaaa;
-  border-bottom: 8px solid #008080;
+  box-shadow: 0 5px 0 0 #008080;
   cursor: pointer;
 }
 
 #chain-counter {
+  display: block;
   margin-left: -1.25em;
   margin-bottom: -3em;
   width: 2em;
@@ -177,7 +178,6 @@ main {
 
 #narratives-form button {
   display: none;
-  margin: 0 1em;
 }
 
 #paragraphs p {

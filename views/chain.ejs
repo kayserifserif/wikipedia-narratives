@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Hyperlinked Narratives</title>
   <meta charset="UTF-8">
+  <title>Hyperlinked Narratives</title>
   <link rel="stylesheet" href="/css/styles.css">
   <link href="https://fonts.googleapis.com/css?family=Cabin:400,400i,600,600i|Vampiro+One&display=swap" rel="stylesheet">
 </head>
@@ -11,7 +11,7 @@
     <h1 id="home"><a href="/">Hyperlinked Narratives</a></h1>
   </header>
   <main>
-    <p id="chain-counter"><sup id="chain-count"><%-chain.length%></sup>&frasl;<sub>6</sub></p>
+    <span id="chain-counter"><sup id="chain-count"><%-chain.length%></sup>&frasl;<sub>6</sub></span>
     <p id="narrative-instruct" class="instruct">Fill in the blanks to write your own Mad Libs&ndash;style narrative about how these things are related!</p>
     <% if (chain) { %>
       <p id="article-chain" class="constructing">
@@ -38,9 +38,9 @@
         <button id="compare-narratives" class="narrative-btn action-btn" type="button">Compare narratives</button>
       </form>
       <div id="paragraphs">
-        <% chain.forEach(function(node) { %>
-          <p><%- node.paragraph %></p>
-        <% }) %>
+        <% for (var i = 1; i < chain.length; i++) { %>
+          <p><%- chain[i].paragraph %></p>
+        <% } %>
       </div>
     <% } %>
   </main>
