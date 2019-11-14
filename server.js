@@ -5,6 +5,8 @@ const express = require('express');
 const app = express();
 const parser = require('body-parser');
 
+var port = process.env.PORT || 3000;
+
 // allow access to static files in public directory
 app.use(express.static('public'));
 // body parsing middleware, provides req.body
@@ -146,6 +148,6 @@ app.post('/chain', function(req, res) {
 });
 
 // start server
-app.listen(3000, function() {
-  console.log('App listening on port 3000!');
+app.listen(port, function() {
+  console.log('App listening on port ' + port + '!');
 });
