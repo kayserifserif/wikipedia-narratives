@@ -1,10 +1,93 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  font-family: sans-serif;
-  line-height: 1.2;
+  height: 100%;
+}
+
+body {
+  font-family: "Cabin", sans-serif;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Vampiro One", cursive;
+  font-weight: normal;
+}
+
+header,
+main {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2em;
+}
+  @media (min-width: 1000px) {
+    header,
+    main {
+      width: 60%;
+    }
+  }
+
+header {
+  padding-bottom: 0;
+}
+
+#home {
+  text-align: center;
+  font-size: 2em;
+}
+  @media (min-width: 1000px) {
+    #home {
+      font-size: 4em;
+    }
+  }
+
+#home a {
+  color: #008080;
+  text-decoration: none;
+}
+
+#path-form {
+  display: flex;
+  justify-content: center;
+}
+
+.action-btn {
+  margin: 1em;
+  padding: 1em;
+  background-color: #008080;
+  border: 0;
+  border-bottom: 5px solid #025e5e;
+  border-radius: 5px;
+  font-size: 1em;
+  font-family: "Cabin", sans-serif;
+  color: #fff;
+}
+
+.action-btn:disabled {
+  background-color: #8c8c8c;
+  border-bottom: 5px solid #5c5c5c;
+}
+
+.action-btn:not(:disabled):hover {
+  margin-top: calc(1em - 3px);
+  background-color: #15aaaa;
+  border-bottom: 8px solid #008080;
+  cursor: pointer;
+}
+
+#chain-counter {
+  font-family: "Vampiro One", cursive;
 }
 
 #article-chain {
-  line-height: 1.5;
   transition: font-size 1s;
 }
 
@@ -29,11 +112,12 @@ body {
   display: block;
   margin: 7px;
   padding: 7px;
-  background: none;
+  background-color: none;
   border: 1px solid currentColor;
   border-radius: 5px;
-  color: #008080;
   font-size: 1em;
+  font-family: "Cabin", sans-serif;
+  color: #008080;
   opacity: 0;
   transition: opacity 500ms;
 }
@@ -43,10 +127,19 @@ body {
 }
 
 #article-chain.narrativising {
-  font-size: 2.5em;
+  font-size: 1.5em;
+}
+  @media (min-width: 1000px) {
+    #article-chain.narrativising {
+      font-size: 2.5em;
+    }
+  }
+
+#narrative-instruct {
+  display: none;
 }
 
-.narrativeInput {
+.narrative-input {
   display: inline-block;
   margin: 0 .5em;
   padding: 0 .2em;
@@ -57,8 +150,15 @@ body {
   color: #008080;
 }
 
+#narratives-form {
+  display: flex;
+  justify-content: center;
+  margin: 2em 0;
+}
+
 #narratives-form button {
   display: none;
+  margin: 0 1em;
 }
 
 #paragraphs {

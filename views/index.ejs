@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title></title>
+  <title>Hyperlinked Narratives</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,400i,600,600i|Vampiro+One&display=swap" rel="stylesheet">
 </head>
-<body>
-  <p><a href="/">Home</a></p>
-  <form action="/chain" method="GET" id="pathForm">
-    <button name="path_type" value="manual">Let me make my own path</button>
-    <button name="path_type" value="auto">Choose a path for me</button>
-  </form>
+<body id="index">
+  <header>
+    <h1 id="home"><a href="/">Hyperlinked Narratives</a></h1>
+  </header>
+  <main>
+    <form action="/chain" method="GET" id="path-form">
+      <button class="pathType action-btn" name="pathType" value="manual">Let me make my own path</button>
+      <button class="pathType action-btn" name="pathType" value="auto">Choose a path for me</button>
+    </form>
+  </main>
   <script src="/js/scripts.js"></script>
 </body>
 </html>

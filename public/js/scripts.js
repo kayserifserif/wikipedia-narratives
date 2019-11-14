@@ -4,27 +4,38 @@ var compareNarrativesBtn;
 function createNarrative() {
   // hide chain counter
   document.getElementById("chain-counter").style.display = "none";
+  document.getElementById("narrative-instruct").style.visibility = "visible";
   // transform article chain
   var articleChain = document.getElementById("article-chain");
   articleChain.classList.remove("constructing");
   articleChain.classList.add("narrativising");
   var nodes = document.getElementsByClassName("article-node");
-  for (var i = 0; i < nodes.length - 1; i++) {
+  // add inputs
+  var currentInputSpan = 0;
+  var addInputSpan = function() {
     // create editable text fields between nodes
     var inputSpan = document.createElement("span");
-    inputSpan.classList.add("narrativeInput");
+    inputSpan.classList.add("narrative-input");
     inputSpan.contentEditable = true;
     inputSpan.onfocus = selectAllOnFocus;
-    articleChain.insertBefore(inputSpan, nodes[i].nextSibling);
+    // articleChain.insertBefore(inputSpan, nodes[i].nextSibling);
+    articleChain.insertBefore(inputSpan, nodes[currentInputSpan].nextSibling);
+    currentInputSpan++;
+    if (currentInputSpan < nodes.length - 1) {
+      // short delay between each
+      setTimeout(addInputSpan, 100);
+    } else {
+      document.getElementsByClassName("narrative-input")[0].focus();
+    }
   }
-  document.getElementsByClassName("narrativeInput")[0].focus();
+  // wait until article chain transformed
+  setTimeout(addInputSpan, 800);
   // insert period
   articleChain.append(document.createTextNode("."));
 
-  // remove self
-  // this.parentNode.removeChild(this);
-  this.style.display = "none";
-    compareNarrativesBtn.style.display = "block";
+  // disable self
+  this.disabled = true;
+  compareNarrativesBtn.disabled = false;
 }
 
 function selectAllOnFocus() {
@@ -35,6 +46,8 @@ function selectAllOnFocus() {
 function compareNarratives() {
   var paragraphs = document.getElementById("paragraphs");
   paragraphs.style.display = "block";
+  createNarrativeBtn.style.display = "none";
+  this.style.display = "none";
 }
 
 window.onload = function() {
@@ -69,8 +82,12 @@ window.onload = function() {
   // display "create narratives" button
   var chainCount = document.getElementById("chain-count");
   if (chainCount) {
-    if (parseInt(chainCount.textContent) == 10) {
+    if (parseInt(chainCount.textContent) == 6) {
+      // createNarrativeBtn.style.visibility = "visible";
       createNarrativeBtn.style.display = "block";
+      createNarrativeBtn.disabled = false;
+      compareNarrativesBtn.style.display = "block";
+      compareNarrativesBtn.disabled = true;
     }
   }
 

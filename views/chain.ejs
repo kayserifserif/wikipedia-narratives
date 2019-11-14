@@ -1,43 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title></title>
+  <title>Hyperlinked Narratives</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,400i,600,600i|Vampiro+One&display=swap" rel="stylesheet">
 </head>
-<body>
-  <p><a href="/">Home</a></p>
-  <p id="chain-counter">Article chain: <span><span id="chain-count"><%-chain.length%></span>/10</span></p>
-  <% if (chain) { %>
-    <p id="article-chain" class="constructing">
-      <% if (chain.length > 0) { %>
-        <% chain.forEach(function(node) { %>
-          <span class="article-node"><%- node.title %></span>
-        <% }); %>
-      <% } %>
-    </p>
-  <% } %>
-  <% if (articleLinks) { %>
-    <p>Randomised collection of links in current article:</p>
-    <div class="article-links">
-      <form action="/chain" method="POST">
-        <% articleLinks.forEach(function(link) { %>
-          <button class="article-link" name="article_link" value=<%=link.url_stub%>><%- link.title %></button>
-        <% }); %>
+<body id="chain">
+  <header>
+    <h1 id="home"><a href="/">Hyperlinked Narratives</a></h1>
+  </header>
+  <main>
+    <p id="chain-counter"><sup id="chain-count"><%-chain.length%></sup>&frasl;<sub>6</sub></p>
+    <p id="narrative-instruct">Fill in the blanks to write your own Mad Libs&ndash;style narrative about how these things are related!</p>
+    <% if (chain) { %>
+      <p id="article-chain" class="constructing">
+        <% if (chain.length > 0) { %>
+          <% chain.forEach(function(node) { %>
+            <span class="article-node"><%- node.title %></span>
+          <% }); %>
+        <% } %>
+      </p>
+    <% } %>
+    <% if (articleLinks) { %>
+      <p>Click a link to add it to the article chain:</p>
+      <div class="article-links">
+        <form action="/chain" method="POST">
+          <% articleLinks.forEach(function(link) { %>
+            <button class="article-link" name="article_link" value=<%=link.url_stub%>><%- link.title %></button>
+          <% }); %>
+        </form>
+      </div>
+    <% } %>
+    <% if (chain.length == 6) { %>
+      <form action="" id="narratives-form">
+        <button id="create-narrative" class="narrative-btn action-btn" type="button">Create a narrative</button>
+        <button id="compare-narratives" class="narrative-btn action-btn" type="button">Compare narratives</button>
       </form>
-    </div>
-  <% } %>
-  <% if (chain.length == 10) { %>
-    <form action="" id="narratives-form">
-      <button id="create-narrative" type="button">Create a narrative</button>
-      <button id="compare-narratives" type="button">Compare narratives</button>
-    </form>
-    <div id="paragraphs">
-      <% chain.forEach(function(node) { %>
-        <p><%- node.paragraph %></p>
-      <% }) %>
-    </div>
-  <% } %>
+      <div id="paragraphs">
+        <% chain.forEach(function(node) { %>
+          <p><%- node.paragraph %></p>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
   <script src="/js/scripts.js"></script>
 </body>
 </html>

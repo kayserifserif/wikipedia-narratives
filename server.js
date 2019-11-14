@@ -15,7 +15,7 @@ app.set('view engine', 'ejs');
 // get random wikipedia page
 var randomURL = "https://en.wikipedia.org/wiki/Special:Random#/random";
 var chain = [];
-var maxChainLength = 10;
+var maxChainLength = 6;
 var articleLinks = [];
 
 function renderChain(url, isManual, res) {
@@ -46,7 +46,7 @@ function renderChain(url, isManual, res) {
       chain.push({
         title: title,
         paragraph: paragraph
-      })
+      });
 
       if (chain.length < maxChainLength) {
         // get links on page (only those going to other wikipedia articles)
@@ -70,14 +70,18 @@ function renderChain(url, isManual, res) {
           var title = $(this).attr('title');
           var url = 'https://en.wikipedia.org' + $(this).attr('href');
           var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
-          var paragraph = $(this).parent().html();
-          // get sentence/kwic?
-          // add to links array (only if not duplicate?)
+          var paragraph = $(this).closest("p").html(); // get containing paragraph
+          // var paragraphText = $(this).closest("p").html(); // get containing paragraph
+          // var paragraph = $.parseHTML(paragraphText);
+          // paragraph.find("a[href='/wiki/" + url_stub + "']").css("color", "#008080");
+          // var paragraphText = paragraph.html();
+          // add to array (only if not duplicate?)
           articleLinks.push({
             title: title,
             url: url,
             url_stub: url_stub,
             paragraph: paragraph
+            // paragraph: paragraphText
           });
         });
 
@@ -126,7 +130,7 @@ app.get('/', function(req, res) {
 // generate new chain
 app.get('/chain', function(req, res) {
   chain = [];
-  if (req.query.path_type == 'manual') {
+  if (req.query.pathType == 'manual') {
     renderChain(randomURL, true, res);
   } else {
     renderChain(randomURL, false, res);
