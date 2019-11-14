@@ -50,7 +50,6 @@ function renderChain(url, isManual, res) {
 
       if (chain.length < maxChainLength) {
         // get links on page (only those going to other wikipedia articles)
-        // var articleLinks = [];
         articleLinks = [];
         $(
           '.mw-parser-output > p a' + 
@@ -68,21 +67,24 @@ function renderChain(url, isManual, res) {
               '.internal)'
         ).each(function(i, elem) {
           var title = $(this).attr('title');
-          var url = 'https://en.wikipedia.org' + $(this).attr('href');
-          var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
-          var paragraph = $(this).closest("p").html(); // get containing paragraph
-          // var paragraphText = $(this).closest("p").html(); // get containing paragraph
-          // var paragraph = $.parseHTML(paragraphText);
-          // paragraph.find("a[href='/wiki/" + url_stub + "']").css("color", "#008080");
-          // var paragraphText = paragraph.html();
-          // add to array (only if not duplicate?)
-          articleLinks.push({
-            title: title,
-            url: url,
-            url_stub: url_stub,
-            paragraph: paragraph
-            // paragraph: paragraphText
-          });
+          // check for existing link with same title
+          if (articleLinks.filter(link => link.title === title).length == 0) {
+            var url = 'https://en.wikipedia.org' + $(this).attr('href');
+            var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
+            var paragraph = $(this).closest("p").html(); // get containing paragraph
+            // var paragraphText = $(this).closest("p").html(); // get containing paragraph
+            // var paragraph = $.parseHTML(paragraphText);
+            // paragraph.find("a[href='/wiki/" + url_stub + "']").css("color", "#008080");
+            // var paragraphText = paragraph.html();
+            // add to array
+            articleLinks.push({
+              title: title,
+              url: url,
+              url_stub: url_stub,
+              paragraph: paragraph
+              // paragraph: paragraphText
+            });
+          }
         });
 
         // shuffle array
