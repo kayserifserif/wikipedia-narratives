@@ -12,7 +12,7 @@
   </header>
   <main>
     <p id="chain-counter"><sup id="chain-count"><%-chain.length%></sup>&frasl;<sub>6</sub></p>
-    <p id="narrative-instruct">Fill in the blanks to write your own Mad Libs&ndash;style narrative about how these things are related!</p>
+    <p id="narrative-instruct" class="instruct">Fill in the blanks to write your own Mad Libs&ndash;style narrative about how these things are related!</p>
     <% if (chain) { %>
       <p id="article-chain" class="constructing">
         <% if (chain.length > 0) { %>
@@ -23,7 +23,7 @@
       </p>
     <% } %>
     <% if (articleLinks) { %>
-      <p>Click a link to add it to the article chain:</p>
+      <p class="instruct">Click a link to add it to the article chain:</p>
       <div class="article-links">
         <form action="/chain" method="POST">
           <% articleLinks.forEach(function(link) { %>

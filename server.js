@@ -68,6 +68,7 @@ function renderChain(url, isManual, res) {
         ).each(function(i, elem) {
           var title = $(this).attr('title');
           // check for existing link with same title
+          // https://stackoverflow.com/a/8217584
           if (articleLinks.filter(link => link.title === title).length == 0) {
             var url = 'https://en.wikipedia.org' + $(this).attr('href');
             var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
@@ -87,8 +88,7 @@ function renderChain(url, isManual, res) {
           }
         });
 
-        // shuffle array
-        // Fisher-Yates algorithm from
+        // shuffle array with Fisher-Yates algorithm
         // medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
         for (var i = articleLinks.length-1; i > 0; i--) {
           var j = Math.floor(Math.random() * i);

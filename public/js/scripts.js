@@ -4,7 +4,7 @@ var compareNarrativesBtn;
 function createNarrative() {
   // hide chain counter
   document.getElementById("chain-counter").style.display = "none";
-  document.getElementById("narrative-instruct").style.visibility = "visible";
+  document.getElementById("narrative-instruct").style.display = "block";
   // transform article chain
   var articleChain = document.getElementById("article-chain");
   articleChain.classList.remove("constructing");
@@ -17,8 +17,9 @@ function createNarrative() {
     var inputSpan = document.createElement("span");
     inputSpan.classList.add("narrative-input");
     inputSpan.contentEditable = true;
+    // insert zero-width space for firefox bug
+    inputSpan.append(document.createTextNode("\u200b"));
     inputSpan.onfocus = selectAllOnFocus;
-    // articleChain.insertBefore(inputSpan, nodes[i].nextSibling);
     articleChain.insertBefore(inputSpan, nodes[currentInputSpan].nextSibling);
     currentInputSpan++;
     if (currentInputSpan < nodes.length - 1) {
@@ -44,8 +45,18 @@ function selectAllOnFocus() {
 }
 
 function compareNarratives() {
-  var paragraphs = document.getElementById("paragraphs");
-  paragraphs.style.display = "block";
+  var paragraphs = document.getElementById("paragraphs").getElementsByTagName("p");;
+  // paragraphs.style.display = "block";
+  var currentPara = 0;
+  var paragraphsFadeIn = function() {
+    paragraphs[currentPara].style.display = "block";
+    currentPara++;
+    if (currentPara < paragraphs.length) {
+      setTimeout(paragraphsFadeIn, 100);
+    }
+  }
+  paragraphsFadeIn();
+  // hide buttons
   createNarrativeBtn.style.display = "none";
   this.style.display = "none";
 }
