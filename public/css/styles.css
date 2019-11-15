@@ -59,6 +59,17 @@ main {
   text-decoration: none;
 }
 
+#intro {
+  width: 100%;
+  margin: 2em auto;
+  text-align: center;
+}
+  @media (min-width: 1000px) {
+    #intro {
+      width: 60%;
+    }
+  }
+
 #path-form {
   display: flex;
   justify-content: center;
