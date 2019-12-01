@@ -54,7 +54,7 @@ function renderChain(url, isManual, res) {
         // get links on page (only those going to other wikipedia articles)
         articleLinks = [];
         $(
-          '.mw-parser-output > p a' + 
+          '.mw-parser-output > p > a' + 
             '[href^="/wiki/"]' + 
             ':not' + 
               '(:has(>img),' + 
@@ -74,18 +74,20 @@ function renderChain(url, isManual, res) {
           if (articleLinks.filter(link => link.title === title).length == 0) {
             var url = 'https://en.wikipedia.org' + $(this).attr('href');
             var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
+            // escape for regex
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping
+            var url_stub_esc = url_stub.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            var search_str = new RegExp("<a href=\"/wiki/" + url_stub_esc + "\"[^<]*</a>");
             var paragraph = $(this).closest("p").html(); // get containing paragraph
-            // var paragraphText = $(this).closest("p").html(); // get containing paragraph
-            // var paragraph = $.parseHTML(paragraphText);
-            // paragraph.find("a[href='/wiki/" + url_stub + "']").css("color", "#008080");
-            // var paragraphText = paragraph.html();
+            paragraph = paragraph.replace(search_str, "<span class=\"keyword\">$&</span>");
+            paragraph = paragraph.replace(/<a[^>]*>|<\/a>/g, ""); // a tags
+            paragraph = paragraph.replace(/<sup[^/]*\/[^>]*>(<\/sup>)*/g, ""); // superscript tags
             // add to array
             articleLinks.push({
               title: title,
               url: url,
               url_stub: url_stub,
               paragraph: paragraph
-              // paragraph: paragraphText
             });
           }
         });

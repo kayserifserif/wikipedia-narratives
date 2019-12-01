@@ -47,6 +47,7 @@ main {
 #home {
   text-align: center;
   font-size: 2em;
+  line-height: 1.2;
 }
   @media (min-width: 1000px) {
     #home {
@@ -193,4 +194,10 @@ main {
 
 #paragraphs p {
   display: none;
+}
+
+.keyword {
+  color: #008080;
+  font-weight: bold;
+  border: 1px solid currentColor;
 }
