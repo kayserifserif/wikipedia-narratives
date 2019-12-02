@@ -1,5 +1,7 @@
 # Hyperlinked Narratives
 
+A Wikipedia-based narrative tool.
+
 ## Instructions
 1. Make sure npm and node are installed.
 2. Navigate to this directory and run:
