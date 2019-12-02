@@ -1,3 +1,7 @@
+var sampleConnections = ["was", "went to", "involved", "met", "created",
+  "wanted", "found", "told", "said", "also known as", "is known for",
+  "is caused by", "leads to", "features"];
+
 var createNarrativeBtn;
 var compareNarrativesBtn;
 
@@ -11,26 +15,36 @@ function createNarrative() {
   articleChain.classList.add("narrativising");
   var nodes = document.getElementsByClassName("article-node");
   // add inputs
-  var currentInputSpan = 0;
-  var addInputSpan = function() {
+  var currentNodeConnection = 0;
+  var addNodeConnection = function() {
     // create editable text fields between nodes
-    var inputSpan = document.createElement("span");
-    inputSpan.classList.add("narrative-input");
-    inputSpan.contentEditable = true;
-    // insert zero-width space for firefox bug
-    inputSpan.append(document.createTextNode("\u200b"));
-    inputSpan.onfocus = selectAllOnFocus;
-    articleChain.insertBefore(inputSpan, nodes[currentInputSpan].nextSibling);
-    currentInputSpan++;
-    if (currentInputSpan < nodes.length - 1) {
+    var nodeConnection = document.createElement("span");
+    nodeConnection.contentEditable = true;
+    nodeConnection.classList.add("node-connection");
+     // enable placeholder
+    nodeConnection.classList.add("placeholder-connection");
+    nodeConnection.textContent = "\u200b"; // zero-width space for firefox bug
+    // random placehodler
+    var placeholderText = sampleConnections[
+      Math.floor(Math.random() * sampleConnections.length)] + "…";
+    nodeConnection.setAttribute("placeholder", placeholderText);
+    nodeConnection.addEventListener("focusin", function() {
+      var connections = document.getElementsByClassName("node-connection");
+      for (var i = 0; i < connections.length; i++) {
+        connections[i].classList.remove("placeholder-connection");
+      }
+    });
+    articleChain.insertBefore(nodeConnection, nodes[currentNodeConnection].nextSibling);
+    currentNodeConnection++;
+    if (currentNodeConnection < nodes.length - 1) {
       // short delay between each
-      setTimeout(addInputSpan, 100);
+      setTimeout(addNodeConnection, 100);
     } else {
-      document.getElementsByClassName("narrative-input")[0].focus();
+      // document.getElementsByClassName("narrative-input")[0].focus();
     }
   }
   // wait until article chain transformed
-  setTimeout(addInputSpan, 800);
+  setTimeout(addNodeConnection, 800);
   // insert period
   articleChain.append(document.createTextNode("."));
 
@@ -39,10 +53,10 @@ function createNarrative() {
   compareNarrativesBtn.disabled = false;
 }
 
-function selectAllOnFocus() {
+// function selectAllOnFocus() {
   // this.select();
   // document.execCommand("selectAll", true, null);
-}
+// }
 
 function compareNarratives() {
   var paragraphs = document.getElementById("paragraphs").getElementsByTagName("p");;
