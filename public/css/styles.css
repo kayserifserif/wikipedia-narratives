@@ -224,12 +224,18 @@ https://stackoverflow.com/a/24827239
   display: none;
 }
 
-#paragraphs .instruct {
+#paragraphs .instruct,
+#paragraphs .para-h,
+#paragraphs .para-p {
   display: none;
 }
 
+#paragraphs .para-h,
+#paragraphs .para-p {
+  padding-left: 2rem;
+}
+
 #paragraphs .para-h {
-  display: none;
   margin: 1.5rem 0 0;
   font-family: "Cabin", sans-serif;
 }
@@ -254,7 +260,6 @@ https://stackoverflow.com/a/24827239
 
 #paragraphs .para-p {
   position: relative;
-  display: none;
   margin: 1rem 0;
 }
 
@@ -263,7 +268,7 @@ https://stackoverflow.com/a/24827239
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -1.55rem;
+  left: 0.4rem;
   border: 1.5px dashed #008080;
 }
 
