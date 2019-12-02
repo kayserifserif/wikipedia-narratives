@@ -182,6 +182,10 @@ main {
   color: #008080;
 }
 
+/* placeholder text
+https://stackoverflow.com/a/24827239
+*/
+
 .placeholder-connection::before {
   content: attr(placeholder);
   color: #354040;
@@ -191,6 +195,8 @@ main {
 .placeholder-connection:focus::before {
   content: "";
 }
+
+/* end placeholder text */
 
 #narratives-form {
   display: flex;

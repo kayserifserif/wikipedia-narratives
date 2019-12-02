@@ -14,33 +14,42 @@ function createNarrative() {
   articleChain.classList.remove("constructing");
   articleChain.classList.add("narrativising");
   var nodes = document.getElementsByClassName("article-node");
-  // add inputs
   var currentNodeConnection = 0;
-  var addNodeConnection = function() {
     // create editable text fields between nodes
+  var addNodeConnection = function() {
     var nodeConnection = document.createElement("span");
     nodeConnection.contentEditable = true;
     nodeConnection.classList.add("node-connection");
      // enable placeholder
     nodeConnection.classList.add("placeholder-connection");
     nodeConnection.textContent = "\u200b"; // zero-width space for firefox bug
-    // random placehodler
+    //  get random placehodler text
     var placeholderText = sampleConnections[
       Math.floor(Math.random() * sampleConnections.length)] + "…";
     nodeConnection.setAttribute("placeholder", placeholderText);
     nodeConnection.addEventListener("focusin", function() {
+      // if there is text, select all
+      // https://stackoverflow.com/a/6150060
+      if (this.textContent.length != "\u200b") {
+        var range = document.createRange();
+        range.selectNodeContents(this);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+      // remove all placeholder texts
       var connections = document.getElementsByClassName("node-connection");
       for (var i = 0; i < connections.length; i++) {
         connections[i].classList.remove("placeholder-connection");
       }
     });
-    articleChain.insertBefore(nodeConnection, nodes[currentNodeConnection].nextSibling);
+    // add node connection
+    articleChain.insertBefore(nodeConnection,
+      nodes[currentNodeConnection].nextSibling);
     currentNodeConnection++;
+    // short delay between each node connection
     if (currentNodeConnection < nodes.length - 1) {
-      // short delay between each
       setTimeout(addNodeConnection, 100);
-    } else {
-      // document.getElementsByClassName("narrative-input")[0].focus();
     }
   }
   // wait until article chain transformed
@@ -48,19 +57,14 @@ function createNarrative() {
   // insert period
   articleChain.append(document.createTextNode("."));
 
-  // disable self
+  // disable create narratives button
   this.disabled = true;
+  // enable cmompare narratives button
   compareNarrativesBtn.disabled = false;
 }
 
-// function selectAllOnFocus() {
-  // this.select();
-  // document.execCommand("selectAll", true, null);
-// }
-
 function compareNarratives() {
-  var paragraphs = document.getElementById("paragraphs").getElementsByTagName("p");;
-  // paragraphs.style.display = "block";
+  var paragraphs = document.querySelectorAll("#paragraphs p");
   var currentPara = 0;
   var paragraphsFadeIn = function() {
     paragraphs[currentPara].style.display = "block";
@@ -78,7 +82,7 @@ function compareNarratives() {
 window.onload = function() {
 
   var links = document.getElementsByClassName("article-link");
-  // staggered transitions code from
+  // staggered transitions
   // https://stackoverflow.com/a/19072639
   if (links.length > 0) {
     var currentLink = 0;
