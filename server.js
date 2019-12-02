@@ -39,15 +39,15 @@ function renderChain(url, isManual, res) {
 
       // get article heading and paragraph in context
       var title = $("#firstHeading").html();
-      var paragraph = "";
+      var para = "";
       for (var i = 0; i < articleLinks.length; i++) {
         if (articleLinks[i].url == url) {
-          paragraph = articleLinks[i].paragraph;
+          para = articleLinks[i].paragraph;
         }
       }
       chain.push({
         title: title,
-        paragraph: paragraph
+        paragraph: para
       });
 
       if (chain.length < maxChainLength) {
@@ -67,27 +67,31 @@ function renderChain(url, isManual, res) {
               '[href^="/wiki/Talk:"],' + 
               '[href^="/wiki/Help:"],' + 
               '.internal)'
-        ).each(function(i, elem) {
+        ).each(function() {
           var title = $(this).attr('title');
           // check for existing link with same title
           // https://stackoverflow.com/a/8217584
           if (articleLinks.filter(link => link.title === title).length == 0) {
-            var url = 'https://en.wikipedia.org' + $(this).attr('href');
-            var url_stub = $(this).attr('href').substring(6); // the part after /wiki/
-            // escape for regex
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping
-            var url_stub_esc = url_stub.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-            var search_str = new RegExp("<a href=\"/wiki/" + url_stub_esc + "\"[^<]*</a>");
-            var paragraph = $(this).closest("p").html(); // get containing paragraph
-            paragraph = paragraph.replace(search_str, "<span class=\"keyword\">$&</span>");
-            paragraph = paragraph.replace(/<a[^>]*>|<\/a>/g, ""); // a tags
-            paragraph = paragraph.replace(/<sup[^/]*\/[^>]*>(<\/sup>)*/g, ""); // superscript tags
+            var href = $(this).attr("href");
+            var url = "https://en.wikipedia.org" + href;
+            var url_stub = href.substring(6); // the part after /wiki/
+            $(this).attr("href", url); // make href full url
+            $(this).removeClass(); // remove all classes
+            $(this).addClass("keyword");
+            var para = $(this).closest("p").clone(); // get copy of containing paragraph
+            para.find(".reference").remove(); // remove references
+            // unwrap all other anchors
+            var anchors = para.find("a[href!='" + url + "']");
+            for (var i = 0; i < anchors.length; i++) {
+              $(anchors[i]).replaceWith($(anchors[i]).html());
+            }
+            para = para.html();
             // add to array
             articleLinks.push({
               title: title,
               url: url,
               url_stub: url_stub,
-              paragraph: paragraph
+              paragraph: para
             });
           }
         });
