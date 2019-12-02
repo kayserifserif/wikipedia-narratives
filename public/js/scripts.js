@@ -1,6 +1,6 @@
 var sampleConnections = ["was", "went to", "involved", "met", "created",
   "wanted", "found", "told", "said", "also known as", "is known for",
-  "is caused by", "leads to", "features"];
+  "is caused by", "leads to", "features", "is a type of"];
 
 var createNarrativeBtn;
 var compareNarrativesBtn;
@@ -13,6 +13,8 @@ function createNarrative() {
   var articleChain = document.getElementById("article-chain");
   articleChain.classList.remove("constructing");
   articleChain.classList.add("narrativising");
+  // insert period
+  articleChain.append(document.createTextNode("."));
   var nodes = document.getElementsByClassName("article-node");
   var currentNodeConnection = 0;
     // create editable text fields between nodes
@@ -28,14 +30,18 @@ function createNarrative() {
       Math.floor(Math.random() * sampleConnections.length)] + "…";
     nodeConnection.setAttribute("placeholder", placeholderText);
     nodeConnection.addEventListener("focusin", function() {
-      // if there is text, select all
-      // https://stackoverflow.com/a/6150060
-      if (this.textContent.length != "\u200b") {
-        var range = document.createRange();
-        range.selectNodeContents(this);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
+      if (this.textContent != "\u200b") {
+        if (this.textContent == "") {
+          this.textContent = "\u200b";
+        } else {
+          // if there is text, select all
+          // https://stackoverflow.com/a/6150060
+          var range = document.createRange();
+          range.selectNodeContents(this);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
       }
       // remove all placeholder texts
       var connections = document.getElementsByClassName("node-connection");
@@ -43,7 +49,7 @@ function createNarrative() {
         connections[i].classList.remove("placeholder-connection");
       }
     });
-    // add node connection
+    // add node connection to page
     articleChain.insertBefore(nodeConnection,
       nodes[currentNodeConnection].nextSibling);
     currentNodeConnection++;
@@ -54,8 +60,6 @@ function createNarrative() {
   }
   // wait until article chain transformed
   setTimeout(addNodeConnection, 800);
-  // insert period
-  articleChain.append(document.createTextNode("."));
 
   // disable create narratives button
   this.disabled = true;
@@ -64,19 +68,19 @@ function createNarrative() {
 }
 
 function compareNarratives() {
-  var paragraphs = document.querySelectorAll("#paragraphs p");
-  var currentPara = 0;
-  var paragraphsFadeIn = function() {
-    paragraphs[currentPara].style.display = "block";
-    currentPara++;
-    if (currentPara < paragraphs.length) {
-      setTimeout(paragraphsFadeIn, 100);
+  // var els = document.querySelectorAll("#paragraphs p");
+  var els = document.querySelectorAll("#paragraphs > *");
+  var currentEl = 0;
+  var elsFadeIn = function() {
+    els[currentEl].style.display = "block";
+    currentEl++;
+    if (currentEl < els.length) {
+      setTimeout(elsFadeIn, 100);
     }
   }
-  paragraphsFadeIn();
+  elsFadeIn();
   // hide buttons
-  createNarrativeBtn.style.display = "none";
-  this.style.display = "none";
+  document.getElementById("narratives-form").style.display = "none";
 }
 
 window.onload = function() {
@@ -112,7 +116,6 @@ window.onload = function() {
   var chainCount = document.getElementById("chain-count");
   if (chainCount) {
     if (parseInt(chainCount.textContent) == 6) {
-      // createNarrativeBtn.style.visibility = "visible";
       createNarrativeBtn.style.display = "block";
       createNarrativeBtn.disabled = false;
       compareNarrativesBtn.style.display = "block";

@@ -38,8 +38,13 @@
         <button id="compare-narratives" class="narrative-btn action-btn" type="button">Compare narratives</button>
       </form>
       <div id="paragraphs">
+        <p class="instruct">
+          <a href='<%= chain[0].url %>' title='<%= chain[0].link_title %>'>Explore from the beginning on Wikipedia.</a>
+        </p>
+        <h2 class="para-h"><%- chain[0].title %></h2>
         <% for (var i = 1; i < chain.length; i++) { %>
-          <p><%- chain[i].paragraph %></p>
+          <p class="para-p"><%- chain[i].paragraph %></p>
+          <h2 class="para-h"><%- chain[i].title %></h2>
         <% } %>
       </div>
     <% } %>

@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -12,7 +14,13 @@ body {
   line-height: 1.5;
 }
 
-h1,
+a {
+  color: #008080;
+  border-bottom: 1px solid currentColor;
+  text-decoration: none;
+}
+
+/* h1,
 h2,
 h3,
 h4,
@@ -20,7 +28,7 @@ h5,
 h6 {
   font-family: "Vampiro One", cursive;
   font-weight: normal;
-}
+} */
 
 header,
 main {
@@ -48,6 +56,7 @@ main {
   text-align: center;
   font-size: 2em;
   line-height: 1.2;
+  font-family: "Vampiro One", cursive;
 }
   @media (min-width: 1000px) {
     #home {
@@ -56,7 +65,7 @@ main {
   }
 
 #home a {
-  color: #008080;
+  border: 0;
   text-decoration: none;
 }
 
@@ -154,11 +163,16 @@ main {
 }
 
 #article-chain.narrativising {
+  margin: 1em 0;
+  padding: 0.5em;
   font-size: 1.5em;
+  background-color: #edf9f9;
+  border-radius: 10px;
 }
   @media (min-width: 1000px) {
     #article-chain.narrativising {
       font-size: 2.5em;
+      padding: 1em;
     }
   }
 
@@ -173,6 +187,7 @@ main {
 
 .node-connection {
   display: inline-block;
+  max-width: 100%;
   margin: 0 .5em;
   padding: 0 .2em;
   border: 0;
@@ -180,6 +195,7 @@ main {
   background-color: #b9e1e1;
   font-size: 1em;
   color: #008080;
+  word-wrap: break-word;
 }
 
 /* placeholder text
@@ -188,7 +204,7 @@ https://stackoverflow.com/a/24827239
 
 .placeholder-connection::before {
   content: attr(placeholder);
-  color: #354040;
+  color: #606f6f;
   opacity: 0.5;
 }
 
@@ -208,12 +224,52 @@ https://stackoverflow.com/a/24827239
   display: none;
 }
 
-#paragraphs p {
+#paragraphs .instruct {
   display: none;
 }
 
+#paragraphs .para-h {
+  display: none;
+  margin: 1.5rem 0 0;
+  font-family: "Cabin", sans-serif;
+}
+
+#paragraphs .para-h::before {
+  content: "";
+  display: block;
+  position: relative;
+  right: 2rem;
+  width: 1rem;
+  height: 1rem;
+  margin-bottom: -1.6rem;
+  border: 3px solid #008080;
+  border-radius: 50%;
+}
+
+#paragraphs .para-h:first-of-type::before,
+#paragraphs .para-h:last-of-type::before {
+  background-color: #008080;
+  border: 0;
+}
+
+#paragraphs .para-p {
+  position: relative;
+  display: none;
+  margin: 1rem 0;
+}
+
+#paragraphs .para-p::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1.55rem;
+  border: 1.5px dashed #008080;
+}
+
 .keyword {
+  border-bottom: 1px solid currentColor;
   color: #008080;
   font-weight: bold;
-  border: 1px solid currentColor;
+  text-decoration: none;
 }
