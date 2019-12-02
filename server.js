@@ -39,15 +39,22 @@ function renderChain(url, isManual, res) {
 
       // get article heading and paragraph in context
       var title = $("#firstHeading").html();
+      var link_title = $("#firstHeading").text();
       var para = "";
       for (var i = 0; i < articleLinks.length; i++) {
         if (articleLinks[i].url == url) {
           para = articleLinks[i].paragraph;
         }
       }
+      // get url after redirect
+      if (url == randomURL) {
+        url = "https://en.wikipedia.org" + response.socket._httpMessage.path;
+      }
       chain.push({
         title: title,
-        paragraph: para
+        link_title: link_title,
+        paragraph: para,
+        url: url
       });
 
       if (chain.length < maxChainLength) {
@@ -80,6 +87,9 @@ function renderChain(url, isManual, res) {
             $(this).addClass("keyword");
             var para = $(this).closest("p").clone(); // get copy of containing paragraph
             para.find(".reference").remove(); // remove references
+            para.find(".noprint").remove(); // remove other marks
+            para.find(".Inline-Template").remove();
+            para.find(".Template-Fact").remove();
             // unwrap all other anchors
             var anchors = para.find("a[href!='" + url + "']");
             for (var i = 0; i < anchors.length; i++) {
