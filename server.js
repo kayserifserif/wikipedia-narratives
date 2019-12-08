@@ -142,6 +142,8 @@ function renderChain(url, isManual, res) {
   });
 }
 
+// force https
+// https://jaketrent.com/post/https-redirect-node-heroku/
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
     if (req.header("x-forwarded-proto") !== "https") {
