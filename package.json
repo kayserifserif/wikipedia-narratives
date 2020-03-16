@@ -13,7 +13,8 @@
     "cheerio": "^1.0.0-rc.3",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "minimist": ">=1.2.2"
   },
   "devDependencies": {
     "ejs-lint": "^0.3.0",
