@@ -18,7 +18,7 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "ejs-lint": "^0.3.0",
+    "ejs-lint": "^1.1.0",
     "nodemon": "^2.0.4"
   },
   "repository": "whykatherine/hyperlinked-narratives"
