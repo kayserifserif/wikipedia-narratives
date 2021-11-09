@@ -36,7 +36,7 @@
       <div class="article-links">
         <form action="/chain" method="POST">
           <% articleLinks.forEach(function(link) { %>
-            <button class="article-link" name="article_link" value=<%=link.url_stub%>><%- link.title %></button>
+            <button class="article-link" name="article_link" value='<%=link.url_stub%>'><%- link.title %></button>
           <% }); %>
         </form>
       </div>
