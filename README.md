@@ -2,9 +2,10 @@
 
 A Wikipedia-based narrative tool.
 
-![Webpage with a text box of random items connected with text fields for user input](https://github.com/whykatherine/wikipedia-narratives/blob/master/documentation/2019-12-02%204%20fill%20in.png)
+![Webpage with a text box of random items connected with text fields for user input](documentation/2019-12-02%204%20fill%20in.png)
 
 ## Instructions
+
 1. Make sure npm and node are installed.
 2. Navigate to this directory and run:
 ```
