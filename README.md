@@ -17,3 +17,5 @@ npm start
 ```
 4. If successful, it should say: App listening on port 3000!
 5. In the address bar of your browser, type "localhost:3000" without quotes, and it should take you to this local server.
+
+241022 update: Heroku died; so did this website, for a while. But I just brought it back! It now lives at https://wikipedia-narratives.glitch.me/
