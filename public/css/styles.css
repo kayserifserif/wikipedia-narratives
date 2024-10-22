@@ -156,10 +156,11 @@ main {
   color: #008080;
   opacity: 0;
   transition: opacity 500ms;
+  cursor: pointer;
 }
 
 .article-link:hover {
-  cursor: pointer;
+  background-color: #edf5f5;
 }
 
 #article-chain.narrativising {
