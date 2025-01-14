@@ -11,14 +11,14 @@
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "ejs": "^3.1.7",
+    "ejs": "^3.1.10",
     "express": "^4.17.3",
     "help": "^3.0.2",
     "minimist": ">=1.2.6",
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "ejs-lint": "^1.1.0",
+    "ejs-lint": "^2.0.1",
     "nodemon": "^2.0.20"
   },
   "repository": "kayserifserif/wikipedia-narratives"
