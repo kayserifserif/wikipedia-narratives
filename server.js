@@ -48,7 +48,7 @@ function renderChain(url, isManual, res) {
       }
       // get url after redirect
       if (url == randomURL) {
-        url = "https://en.wikipedia.org" + response.socket._httpMessage.path;
+        url = "https://en.wikipedia.org" + response.client._httpMessage.path;
       }
       chain.push({
         title: title,
