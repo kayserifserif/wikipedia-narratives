@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('@root/request');
 const cheerio = require('cheerio');
 
 const express = require('express');
